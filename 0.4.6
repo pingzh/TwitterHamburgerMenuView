@@ -1,0 +1,150 @@
+[master bd0425a] add pod OAuthSwift, ~
+ 151 files changed, 20162 insertions(+), 68 deletions(-)
+ create mode 100644 Podfile
+ create mode 100644 Podfile.lock
+ create mode 100644 Pods/Alamofire/LICENSE
+ create mode 100644 Pods/Alamofire/README.md
+ create mode 100644 Pods/Alamofire/Source/Alamofire.swift
+ create mode 100644 Pods/Alamofire/Source/Download.swift
+ create mode 100644 Pods/Alamofire/Source/Error.swift
+ create mode 100644 Pods/Alamofire/Source/Manager.swift
+ create mode 100644 Pods/Alamofire/Source/MultipartFormData.swift
+ create mode 100644 Pods/Alamofire/Source/ParameterEncoding.swift
+ create mode 100644 Pods/Alamofire/Source/Request.swift
+ create mode 100644 Pods/Alamofire/Source/Response.swift
+ create mode 100644 Pods/Alamofire/Source/ResponseSerialization.swift
+ create mode 100644 Pods/Alamofire/Source/Result.swift
+ create mode 100644 Pods/Alamofire/Source/ServerTrustPolicy.swift
+ create mode 100644 Pods/Alamofire/Source/Stream.swift
+ create mode 100644 Pods/Alamofire/Source/Upload.swift
+ create mode 100644 Pods/Alamofire/Source/Validation.swift
+ create mode 100644 Pods/AlamofireImage/LICENSE
+ create mode 100644 Pods/AlamofireImage/README.md
+ create mode 100644 Pods/AlamofireImage/Source/Image.swift
+ create mode 100644 Pods/AlamofireImage/Source/ImageCache.swift
+ create mode 100644 Pods/AlamofireImage/Source/ImageDownloader.swift
+ create mode 100644 Pods/AlamofireImage/Source/ImageFilter.swift
+ create mode 100644 Pods/AlamofireImage/Source/Request+AlamofireImage.swift
+ create mode 100644 Pods/AlamofireImage/Source/UIImage+AlamofireImage.swift
+ create mode 100644 Pods/AlamofireImage/Source/UIImageView+AlamofireImage.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/CGSize+Swift.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Cache.swift
+ create mode 100755 Pods/HanekeSwift/Haneke/CryptoSwiftMD5.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Data.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/DiskCache.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/DiskFetcher.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Fetch.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Fetcher.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Format.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/Log.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/NSFileManager+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/NSHTTPURLResponse+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/NetworkFetcher.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/String+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/UIButton+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/UIImage+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/UIImageView+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/Haneke/UIView+Haneke.swift
+ create mode 100644 Pods/HanekeSwift/LICENSE
+ create mode 100644 Pods/HanekeSwift/README.md
+ create mode 100644 Pods/Local Podspecs/SwiftyJSON.podspec.json
+ create mode 100644 Pods/Manifest.lock
+ create mode 100644 Pods/OAuthSwift/LICENSE
+ create mode 100755 Pods/OAuthSwift/OAuthSwift/Dictionary+OAuthSwift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/HMAC.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/Int+OAuthSwift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/NSData+OAuthSwift.swift
+ create mode 100755 Pods/OAuthSwift/OAuthSwift/NSURL+OAuthSwift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuth1Swift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuth2Swift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuthSwiftClient.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuthSwiftCredential.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuthSwiftHTTPRequest.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuthSwiftURLHandlerType.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/OAuthWebViewController.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/SHA1.swift
+ create mode 100755 Pods/OAuthSwift/OAuthSwift/String+OAuthSwift.swift
+ create mode 100644 Pods/OAuthSwift/OAuthSwift/Utils.swift
+ create mode 100644 Pods/OAuthSwift/README.md
+ create mode 100644 Pods/Pods.xcodeproj/project.pbxproj
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/Alamofire.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/AlamofireImage.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/HanekeSwift.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/OAuthSwift.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/Pods-Twitter.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/SnapKit.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/SwiftyJSON.xcscheme
+ create mode 100644 Pods/Pods.xcodeproj/xcuserdata/pzhang.xcuserdatad/xcschemes/xcschememanagement.plist
+ create mode 100644 Pods/SnapKit/LICENSE
+ create mode 100644 Pods/SnapKit/README.md
+ create mode 100644 Pods/SnapKit/Source/Constraint.swift
+ create mode 100644 Pods/SnapKit/Source/ConstraintAttributes.swift
+ create mode 100644 Pods/SnapKit/Source/ConstraintDescription.swift
+ create mode 100644 Pods/SnapKit/Source/ConstraintItem.swift
+ create mode 100644 Pods/SnapKit/Source/ConstraintMaker.swift
+ create mode 100644 Pods/SnapKit/Source/ConstraintRelation.swift
+ create mode 100644 Pods/SnapKit/Source/Debugging.swift
+ create mode 100644 Pods/SnapKit/Source/EdgeInsets.swift
+ create mode 100644 Pods/SnapKit/Source/LayoutConstraint.swift
+ create mode 100644 Pods/SnapKit/Source/SnapKit.swift
+ create mode 100644 Pods/SnapKit/Source/View+SnapKit.swift
+ create mode 100644 Pods/SnapKit/Source/ViewController+SnapKit.swift
+ create mode 100644 Pods/SwiftyJSON/LICENSE
+ create mode 100644 Pods/SwiftyJSON/README.md
+ create mode 100644 Pods/SwiftyJSON/Source/SwiftyJSON.swift
+ create mode 100644 Pods/Target Support Files/Alamofire/Alamofire-dummy.m
+ create mode 100644 Pods/Target Support Files/Alamofire/Alamofire-prefix.pch
+ create mode 100644 Pods/Target Support Files/Alamofire/Alamofire-umbrella.h
+ create mode 100644 Pods/Target Support Files/Alamofire/Alamofire.modulemap
+ create mode 100644 Pods/Target Support Files/Alamofire/Alamofire.xcconfig
+ create mode 100644 Pods/Target Support Files/Alamofire/Info.plist
+ create mode 100644 Pods/Target Support Files/AlamofireImage/AlamofireImage-dummy.m
+ create mode 100644 Pods/Target Support Files/AlamofireImage/AlamofireImage-prefix.pch
+ create mode 100644 Pods/Target Support Files/AlamofireImage/AlamofireImage-umbrella.h
+ create mode 100644 Pods/Target Support Files/AlamofireImage/AlamofireImage.modulemap
+ create mode 100644 Pods/Target Support Files/AlamofireImage/AlamofireImage.xcconfig
+ create mode 100644 Pods/Target Support Files/AlamofireImage/Info.plist
+ create mode 100644 Pods/Target Support Files/HanekeSwift/HanekeSwift-dummy.m
+ create mode 100644 Pods/Target Support Files/HanekeSwift/HanekeSwift-prefix.pch
+ create mode 100644 Pods/Target Support Files/HanekeSwift/HanekeSwift-umbrella.h
+ create mode 100644 Pods/Target Support Files/HanekeSwift/HanekeSwift.modulemap
+ create mode 100644 Pods/Target Support Files/HanekeSwift/HanekeSwift.xcconfig
+ create mode 100644 Pods/Target Support Files/HanekeSwift/Info.plist
+ create mode 100644 Pods/Target Support Files/OAuthSwift/Info.plist
+ create mode 100644 Pods/Target Support Files/OAuthSwift/OAuthSwift-dummy.m
+ create mode 100644 Pods/Target Support Files/OAuthSwift/OAuthSwift-prefix.pch
+ create mode 100644 Pods/Target Support Files/OAuthSwift/OAuthSwift-umbrella.h
+ create mode 100644 Pods/Target Support Files/OAuthSwift/OAuthSwift.modulemap
+ create mode 100644 Pods/Target Support Files/OAuthSwift/OAuthSwift.xcconfig
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Info.plist
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-acknowledgements.markdown
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-acknowledgements.plist
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-dummy.m
+ create mode 100755 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-frameworks.sh
+ create mode 100755 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-resources.sh
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter-umbrella.h
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter.debug.xcconfig
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter.modulemap
+ create mode 100644 Pods/Target Support Files/Pods-Twitter/Pods-Twitter.release.xcconfig
+ create mode 100644 Pods/Target Support Files/SnapKit/Info.plist
+ create mode 100644 Pods/Target Support Files/SnapKit/SnapKit-dummy.m
+ create mode 100644 Pods/Target Support Files/SnapKit/SnapKit-prefix.pch
+ create mode 100644 Pods/Target Support Files/SnapKit/SnapKit-umbrella.h
+ create mode 100644 Pods/Target Support Files/SnapKit/SnapKit.modulemap
+ create mode 100644 Pods/Target Support Files/SnapKit/SnapKit.xcconfig
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/Info.plist
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/SwiftyJSON-dummy.m
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/SwiftyJSON-umbrella.h
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/SwiftyJSON.modulemap
+ create mode 100644 Pods/Target Support Files/SwiftyJSON/SwiftyJSON.xcconfig
+ create mode 100644 Twitter.xcworkspace/contents.xcworkspacedata
+ create mode 100644 Twitter.xcworkspace/xcuserdata/pzhang.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+ delete mode 100644 Twitter/Base.lproj/Main.storyboard
+ create mode 100644 Twitter/SigninViewController.swift
+ create mode 100644 Twitter/TwitterNavigationViewController.swift
+ create mode 100644 Twitter/TwitterTableViewCell.swift
+ create mode 100644 Twitter/TwitterUIColor.swift
+ create mode 100644 Twitter/TwitterViewController.swift
+ delete mode 100644 Twitter/ViewController.swift
