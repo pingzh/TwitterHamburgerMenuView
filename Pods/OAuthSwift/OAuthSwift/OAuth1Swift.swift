@@ -54,7 +54,7 @@ public class OAuth1Swift: NSObject {
         self.postOAuthRequestTokenWithCallbackURL(callbackURL, success: {
             credential, response in
 
-            self.observer = NSNotificationCenter.defaultCenter().addObserverForName(CallbackNotification.notificationName, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock:{
+            self.observer = NSNotificationCenter.defaultCenter().addObserverForName(CallbackNotification.notificationName, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
                 notification in
                 //NSNotificationCenter.defaultCenter().removeObserver(self)
                 NSNotificationCenter.defaultCenter().removeObserver(self.observer!)

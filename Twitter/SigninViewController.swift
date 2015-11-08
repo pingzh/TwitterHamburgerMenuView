@@ -10,15 +10,22 @@ import UIKit
 import SnapKit
 import OAuthSwift
 
+
 class SigninViewController: UIViewController {
 
     private var _signInWithTwitterButton: UIButton!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
         addLayouts()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if let _ = User.currentUser() {
+            let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
+            presentViewController(twitterHomePage, animated: true, completion: nil)
+        }
     }
     
     func addSubviews() {
@@ -38,7 +45,7 @@ class SigninViewController: UIViewController {
     }
     
     func didPressSignInWithTwitterButton() {
-        let oauthswift = OAuth1Swift(
+        let twitterClient = OAuth1Swift(
             consumerKey: TwitterConsumerKey,
             consumerSecret: TwitterConsumerSecret,
             requestTokenUrl: TwitterRequestTokenUrl,
@@ -46,22 +53,15 @@ class SigninViewController: UIViewController {
             accessTokenUrl:  TwitterAccessTokenUrl
         )
         
-        
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
+        twitterClient.authorizeWithCallbackURL(NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
             credential, response in
-            print("success")
-            //self.showAlertView("Twitter", message: "auth_token:\(credential.oauth_token)\n\noauth_toke_secret:\(credential.oauth_token_secret)")
-            let parameters =  Dictionary<String, AnyObject>()
-            oauthswift.client.get("https://api.twitter.com/1.1/statuses/mentions_timeline.json", parameters: parameters,
-                success: {
-                    data, response in
-                    let jsonDict: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
-                    print(jsonDict)
-                }, failure: {(error:NSError!) -> Void in
-                    print(error)
-            })
+            User.setCurrentUser(twitterClient.client)
+            
+            let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
+            self.presentViewController(twitterHomePage, animated: true, completion: nil)
+            
             }, failure: {(error:NSError!) -> Void in
-                print(error.localizedDescription)
+                TwitterHelper.sendAlert("Fail", message: error.localizedDescription)
             }
         )
 
@@ -84,3 +84,15 @@ extension SigninViewController {
         return _signInWithTwitterButton
     }
 }
+
+//
+//let parameters =  Dictionary<String, AnyObject>()
+//twitterClient.client.get("https://api.twitter.com/1.1/statuses/mentions_timeline.json", parameters: parameters,
+//    success: {
+//        data, response in
+//        let jsonDict: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+//        print(jsonDict)
+//    }, failure: {(error:NSError!) -> Void in
+//        print(error)
+//})
+//

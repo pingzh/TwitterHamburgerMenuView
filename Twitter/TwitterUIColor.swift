@@ -20,3 +20,5 @@ let TwitterRequestTokenUrl = "https://api.twitter.com/oauth/request_token"
 
 let TwitterAuthorizeUrl = "https://api.twitter.com/oauth/authorize"
 let TwitterAccessTokenUrl = "https://api.twitter.com/oauth/access_token"
+
+let TwitterHost = "https://api.twitter.com/1.1/"

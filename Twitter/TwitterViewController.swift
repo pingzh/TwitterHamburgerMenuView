@@ -39,6 +39,8 @@ class TwitterViewController: UIViewController {
     
 
     func didPressSignOutButton() {
+        User.clearCurrentUser()
+        dismissViewControllerAnimated(true, completion: nil)
         print("didPressSignOutButton")
     }
     
