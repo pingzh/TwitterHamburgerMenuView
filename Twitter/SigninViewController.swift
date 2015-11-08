@@ -56,7 +56,6 @@ class SigninViewController: UIViewController {
         twitterClient.authorizeWithCallbackURL(NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
             credential, response in
             User.setCurrentUser(twitterClient.client)
-            
             let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
             self.presentViewController(twitterHomePage, animated: true, completion: nil)
             
@@ -96,3 +95,13 @@ extension SigninViewController {
 //        print(error)
 //})
 //
+//
+//let parameters =  Dictionary<String, AnyObject>()
+//twitterClient.client.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
+//    success: {
+//        data, response in
+//        let jsonDict: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+//        print(jsonDict)
+//    }, failure: {(error:NSError!) -> Void in
+//        print(error)
+//})

@@ -9,7 +9,14 @@
 import UIKit
 
 class TwitterTableViewCell: UITableViewCell {
-
+    private var _profileImageView: UIImageView!
+    private var _retwitterByLabel: UILabel!
+    private var _nameLabel: UILabel!
+    private var _usernameLabel: UILabel!
+    private var _twitterContent: UILabel!
+    private var _replyButton: UIButton!
+    private var _retwitterButton: UIButton!
+    private var _likeButton: UIButton!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,4 +39,15 @@ class TwitterTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+extension TwitterTableViewCell {
+    var profileImageView: UIImageView {
+        if _profileImageView == nil {
+            _profileImageView = UIImageView()
+        }
+        return _profileImageView
+    }
+    
+    
 }

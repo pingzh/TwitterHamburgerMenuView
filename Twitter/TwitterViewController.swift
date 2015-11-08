@@ -14,6 +14,7 @@ class TwitterViewController: UIViewController {
     private var _tableView: UITableView!
     private var _signOutButton: UIBarButtonItem!
     private var _newTwitterButton: UIBarButtonItem!
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,16 +22,26 @@ class TwitterViewController: UIViewController {
         addLayouts()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        initData()
+    }
+    
     func addSubviews() {
         view.addSubview(tableView)
         navigationItem.title = "Home"
         navigationItem.leftBarButtonItem = signOutButton
         navigationItem.rightBarButtonItem = newTwitterButton
+        
+        refreshControl.tintColor = UIColor.grayColor()
+        refreshControl.addTarget(self, action: "refreshView", forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
     }
+    
+
     
     func addLayouts() {
         tableView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(snp_topLayoutGuideBottom)
+            make.top.equalTo(view)
             make.left.equalTo(view)
             make.right.equalTo(view)
             make.bottom.equalTo(snp_bottomLayoutGuideTop)
@@ -48,6 +59,27 @@ class TwitterViewController: UIViewController {
         print("didPressNewTwitterButton")
     }
     
+    func initData() {
+        if let currentUser = User.currentUser() {
+            let parameters =  Dictionary<String, AnyObject>()
+            currentUser.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
+                success: {
+                    data, response in
+                    let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSArray
+                    print(json)
+                }, failure: {(error:NSError!) -> Void in
+                    print(error)
+            })
+        }
+    }
+    
+    func refreshView() {
+        refreshControl.beginRefreshing()
+        initData()
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -56,7 +88,7 @@ class TwitterViewController: UIViewController {
 extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -70,11 +102,8 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
             cell = TwitterTableViewCell(style: .Subtitle, reuseIdentifier: reuseId)
         }
         
-        
         return cell
     }
-    
-    
 }
 
 extension TwitterViewController {
