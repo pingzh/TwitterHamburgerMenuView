@@ -12,7 +12,7 @@ import OAuthSwift
 
 
 class SigninViewController: UIViewController {
-
+    
     private var _signInWithTwitterButton: UIButton!
     
     override func viewDidLoad() {
@@ -22,13 +22,30 @@ class SigninViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        if let _ = User.currentUser() {
+        if let user = User.currentUser() {
+            print(user.credential.oauth_token)
+            print(user.credential.oauth_token_secret)
             let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
-            presentViewController(twitterHomePage, animated: true, completion: nil)
+            //presentViewController(twitterHomePage, animated: true, completion: nil)
+            
+            if let currentUser = User.currentUser() {
+                let parameters =  Dictionary<String, AnyObject>()
+                currentUser.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
+                    success: {
+                        data, response in
+                            print("HI")
+                    }, failure: {(error: NSError!) -> Void in
+                        TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
+                        
+                })
+            }
+            
         }
     }
+
     
     func addSubviews() {
+        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(signInWithTwitterButton)
     }
     
@@ -39,7 +56,7 @@ class SigninViewController: UIViewController {
             make.height.equalTo(50)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -63,7 +80,7 @@ class SigninViewController: UIViewController {
                 TwitterHelper.sendAlert("Fail", message: error.localizedDescription)
             }
         )
-
+        
     }
     
 }
@@ -72,7 +89,7 @@ class SigninViewController: UIViewController {
 extension SigninViewController {
     var signInWithTwitterButton: UIButton {
         if _signInWithTwitterButton == nil {
-
+            
             let image = UIImage(named: "signInWithTwitter")!
             let tempButton = UIButton()
             tempButton.setImage(image, forState: .Normal)

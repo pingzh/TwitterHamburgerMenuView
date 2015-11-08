@@ -103,8 +103,9 @@ class TwitterViewController: UIViewController {
                             self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Bottom)
                         }
                     }
-                }, failure: {(error:NSError!) -> Void in
-                    print(error)
+                }, failure: {(error: NSError!) -> Void in
+                    TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
+
             })
         }
     }
@@ -141,6 +142,14 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
         cell.setTwitter(twitter)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedTwitter = twitters[indexPath.row]
+        let twitterDetail = TwitterDetailViewController()
+        twitterDetail.selectedTwitter = selectedTwitter
+        
+        self.navigationController?.pushViewController(twitterDetail, animated: true)
     }
 }
 

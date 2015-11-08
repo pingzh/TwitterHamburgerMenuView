@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.backgroundColor = UIColor.whiteColor()
-        //window!.tintColor = YPRed
         window!.rootViewController = TwitterNavigationViewController(rootViewController: SigninViewController())
         window!.makeKeyAndVisible()
         UIApplication.sharedApplication().statusBarStyle = .LightContent

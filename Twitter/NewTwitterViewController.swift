@@ -29,7 +29,13 @@ class NewTwitterViewController: UIViewController {
         initData()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        twitterContent.delegate = self
+        twitterContent.becomeFirstResponder()
+    }
+    
     func addSubviews() {
+        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(profileImageView)
         view.addSubview(nameLabel)
         view.addSubview(usernameLabel)
@@ -75,10 +81,12 @@ class NewTwitterViewController: UIViewController {
     }
     
     func cancelNewTwitter() {
+        twitterContent.resignFirstResponder()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func twitter() {
+        twitterContent.resignFirstResponder()
         if let statusMessage = twitterContent.text {
             if let client = User.currentUser() {
                 let parameters = ["status": statusMessage]
@@ -93,14 +101,18 @@ class NewTwitterViewController: UIViewController {
             }
         }
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        twitterContent.resignFirstResponder()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
-extension NewTwitterViewController {
+
+extension NewTwitterViewController: UITextViewDelegate {
     var profileImageView: UIImageView {
         if _profileImageView == nil {
             _profileImageView = UIImageView()
@@ -129,8 +141,9 @@ extension NewTwitterViewController {
         if _twitterContent == nil {
             _twitterContent = UITextView()
             
-            _twitterContent.layer.borderWidth = 1
-            _twitterContent.layer.borderColor = UIColor.grayColor().CGColor
+            _twitterContent.delegate = self
+            //_twitterContent.layer.borderWidth = 1
+            //_twitterContent.layer.borderColor = UIColor.grayColor().CGColor
             _twitterContent.textAlignment = .Left
             _twitterContent.font = TTwitterContentFont
         }
