@@ -15,14 +15,14 @@ let TwitterNavTextColor = UIColor.whiteColor()
 
 let TwitterConsumerKey = "I4eeAvYePX9oaqnnWPF4ueSG1"
 let TwitterConsumerSecret = "PgBmDZuX6sugTMleTnI9kibFw8LzxFVOREngg2M0MCADaZE2yn"
-
 let TwitterRequestTokenUrl = "https://api.twitter.com/oauth/request_token"
-
 let TwitterAuthorizeUrl = "https://api.twitter.com/oauth/authorize"
 let TwitterAccessTokenUrl = "https://api.twitter.com/oauth/access_token"
 
+
 let TwitterHost = "https://api.twitter.com/1.1"
 
+let navBarHeight = 64
 let TCellSpan = 8
 let TButtonSpanTop = 30
 let TButtonSize = 20

@@ -38,8 +38,6 @@ class TwitterViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
-
-    
     func addLayouts() {
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(view)
@@ -48,7 +46,6 @@ class TwitterViewController: UIViewController {
             make.bottom.equalTo(snp_bottomLayoutGuideTop)
         }
     }
-    
 
     func didPressSignOutButton() {
         User.clearCurrentUser()
@@ -58,6 +55,15 @@ class TwitterViewController: UIViewController {
     
     func didPressNewTwitterButton() {
         print("didPressNewTwitterButton")
+        
+        let newTwitterPage = NewTwitterViewController()
+        
+        newTwitterPage.username = "pzhang"
+        newTwitterPage.profileImageUrl = "http://pbs.twimg.com/profile_images/1296339574/foxnews-avatar_normal.png"
+        newTwitterPage.name = "Ping Zhang"
+        
+        let newTwitterPageNav = TwitterNavigationViewController(rootViewController: newTwitterPage)
+        presentViewController(newTwitterPageNav, animated: true, completion: nil)
     }
     
     func initData() {
