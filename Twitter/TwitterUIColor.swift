@@ -22,3 +22,19 @@ let TwitterAuthorizeUrl = "https://api.twitter.com/oauth/authorize"
 let TwitterAccessTokenUrl = "https://api.twitter.com/oauth/access_token"
 
 let TwitterHost = "https://api.twitter.com/1.1"
+
+let TCellSpan = 8
+let TButtonSpanTop = 30
+let TButtonSize = 20
+let TButtonSpan = 50
+
+let TNameFontBold = UIFont(name: "Avenir-Heavy", size: 14)
+let TUsernameFont = UIFont(name: "Avenir", size: 13)
+let TUsernameColor = UIColor.grayColor()
+let TTwitterTimeColor = UIColor.grayColor()
+let TTwitterTimeFont = UIFont(name: "Avenir", size: 13)
+let TTwitterContentFont = UIFont(name: "Avenir", size: 13)
+
+let TreplyImage = UIImage(named: "reply.png")
+let TretwitterImage = UIImage(named: "retwitter.png")
+let TlikeImage = UIImage(named: "like.png")

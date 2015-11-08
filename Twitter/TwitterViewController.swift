@@ -65,6 +65,7 @@ class TwitterViewController: UIViewController {
             currentUser.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
+                    
                     let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSArray
                     print(json)
                 }, failure: {(error:NSError!) -> Void in
@@ -101,6 +102,12 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
         else {
             cell = TwitterTableViewCell(style: .Subtitle, reuseIdentifier: reuseId)
         }
+        
+        cell.profileImageView.image = UIImage(named: "twitterProfile.png")
+        cell.nameLabel.text = "Ping Zhang"
+        cell.usernameLabel.text = "@pzhang"
+        cell.twitterTime.text = "4h"
+        cell.twitterContent.text = "fasfdasfdsafdasfffffffffffffffffffffffffffsadfsafdsafasdfasdfsafdsafasdfsdfasfdsafsdfsafasdfasdsadasdfefawefsjfsfl"
         
         return cell
     }
