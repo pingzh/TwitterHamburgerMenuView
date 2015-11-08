@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class TwitterTableViewCell: UITableViewCell {
     private var _profileImageView: UIImageView!
@@ -112,6 +113,16 @@ class TwitterTableViewCell: UITableViewCell {
     func likeTwitter() {
         
     }
+    
+    func setTwitter(twitter: TwitterContent) {
+        let imageNSUrl = NSURL(string: twitter.profileImageUrl)!
+        profileImageView.af_setImageWithURL(imageNSUrl)
+        nameLabel.text = twitter.name
+        usernameLabel.text = twitter.username
+        twitterTime.text = twitter.twitterTime
+        twitterContent.text = twitter.twitterContent
+    }
+    
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -14,7 +14,8 @@ class TwitterViewController: UIViewController {
     private var _tableView: UITableView!
     private var _signOutButton: UIBarButtonItem!
     private var _newTwitterButton: UIBarButtonItem!
-    let refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
+    private var twitters: [TwitterContent] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +66,37 @@ class TwitterViewController: UIViewController {
             currentUser.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    
-                    let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSArray
-                    print(json)
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                        var loadedTwitters: [TwitterContent] = []
+                        let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSArray
+                        for twitter in json! {
+                            let user = twitter["user"] as! NSDictionary
+                            
+                            let profileImageUrl = user["profile_image_url"] as! String
+                            let twitterText = twitter["text"] as! String
+                            
+                            let twitteredData = twitter["created_at"] as! String
+                            let dateFormatter = NSDateFormatter()
+                            dateFormatter.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
+                            let date = dateFormatter.dateFromString(twitteredData)
+                            
+                            let loadedTwitter = TwitterContent(
+                                name: user["name"] as! String,
+                                username: ("@" + (user["screen_name"] as! String)),
+                                twitterTime: "4h",
+                                twitterContent: twitterText,
+                                profileImageUrl: profileImageUrl
+                            )
+                            loadedTwitters.append(loadedTwitter)
+                        }
+                        
+                        let lastCount = self.twitters.count
+                        self.twitters.appendContentsOf(loadedTwitters)
+                        let indexPaths = (lastCount..<self.twitters.count).map { NSIndexPath(forItem: $0, inSection: 0) }
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Bottom)
+                        }
+                    }
                 }, failure: {(error:NSError!) -> Void in
                     print(error)
             })
@@ -76,8 +105,9 @@ class TwitterViewController: UIViewController {
     
     func refreshView() {
         refreshControl.beginRefreshing()
-        initData()
+        //twitters = []
         tableView.reloadData()
+        //initData()
         refreshControl.endRefreshing()
     }
     
@@ -89,11 +119,10 @@ class TwitterViewController: UIViewController {
 extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return twitters.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let reuseId = "TwitterTableViewCell"
         let cell: TwitterTableViewCell
         if let reuseCell = tableView.dequeueReusableCellWithIdentifier(reuseId) as? TwitterTableViewCell {
@@ -102,12 +131,8 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
         else {
             cell = TwitterTableViewCell(style: .Subtitle, reuseIdentifier: reuseId)
         }
-        
-        cell.profileImageView.image = UIImage(named: "twitterProfile.png")
-        cell.nameLabel.text = "Ping Zhang"
-        cell.usernameLabel.text = "@pzhang"
-        cell.twitterTime.text = "4h"
-        cell.twitterContent.text = "fasfdasfdsafdasfffffffffffffffffffffffffffsadfsafdsafasdfasdfsafdsafasdfsdfasfdsafsdfsafasdfasdsadasdfefawefsjfsfl"
+        let twitter = twitters[indexPath.row]
+        cell.setTwitter(twitter)
         
         return cell
     }
