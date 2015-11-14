@@ -75,9 +75,9 @@ class NewTwitterViewController: UIViewController {
     }
     
     func initData() {
-        profileImageView.af_setImageWithURL(NSURL(string: profileImageUrl)!)
-        nameLabel.text = name
-        usernameLabel.text = username
+        profileImageView.af_setImageWithURL(NSURL(string: User.currentTwitterClient.profileImageUrl)!)
+        nameLabel.text = User.currentTwitterClient.name
+        usernameLabel.text = User.currentTwitterClient.username
     }
     
     func cancelNewTwitter() {

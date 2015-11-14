@@ -28,7 +28,11 @@ class MyAccountViewController: UIViewController {
         addSubviews()
         addLayout()
         initData()
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        //initData()
     }
     
     func addSubviews() {
@@ -96,9 +100,12 @@ class MyAccountViewController: UIViewController {
     }
     
     func setUserInfo() {
-        nameLabel.text = "Fusion Yo"
-        usernameLabel.text = "@fusionyo"
-        profileImageView.image = UIImage(named: "twitterProfile.png")
+        
+        if let currentUser = User.currentTwitterClient {
+            nameLabel.text = currentUser.name
+            usernameLabel.text = currentUser.username
+            profileImageView.af_setImageWithURL(NSURL(string: currentUser.profileImageUrl)!)
+        }
     }
     
     override func didReceiveMemoryWarning() {

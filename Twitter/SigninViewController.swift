@@ -63,20 +63,34 @@ class SigninViewController: UIViewController {
             
             twitterClient.client.get(TwitterHost + "/account/verify_credentials.json", parameters: [:], success:
                 { data, response in
-                    
-                    print(data)
-                    
+                    if let user = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary {
+                        
+                        let profileImageUrl = user["profile_image_url"] as! String
+                        let profileBannerImageUrl = "" //user["profile_banner_url"] as? String
+                        let authedTwitterClient = TwitterContent(
+                            name: user["name"] as! String,
+                            username: ("@" + (user["screen_name"] as! String)),
+                            twitterTime: "4h",
+                            twitterContent: "twitterText",
+                            profileImageUrl: profileImageUrl,
+                            profileBannerImageUrl: profileBannerImageUrl,
+                            twitters: user["listed_count"] as! Int,
+                            followings: user["following"] as! Int,
+                            followers: user["followers_count"] as! Int
+                            
+                        )
+                        User.currentTwitterClient = authedTwitterClient
+                        
+                        
+                        let twitterViewController = TwitterViewController()
+                        twitterViewController.myAccountViewController = MyAccountViewController()
+                        let twitterHomePage = TwitterNavigationViewController(rootViewController: twitterViewController)
+                        self.presentViewController(twitterHomePage, animated: true, completion: nil)
+                        
+                    }
                 }, failure: {(error: NSError!) -> Void in
                     TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
-                    
             })
-            
-            
-            let twitterViewController = TwitterViewController()
-            twitterViewController.myAccountViewController = MyAccountViewController()
-            let twitterHomePage = TwitterNavigationViewController(rootViewController: twitterViewController)
-            self.presentViewController(twitterHomePage, animated: true, completion: nil)
-            
             }, failure: {(error:NSError!) -> Void in
                 TwitterHelper.sendAlert("Fail", message: error.localizedDescription)
             }
