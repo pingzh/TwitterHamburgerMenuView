@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.backgroundColor = UIColor.whiteColor()
         
         let twitterViewController = SigninViewController()
+        //twitterViewController.myAccountViewController = MyAccountViewController()
+        
         window!.rootViewController = TwitterNavigationViewController(rootViewController: twitterViewController)
         
         //let menuViewController = MenuViewController()

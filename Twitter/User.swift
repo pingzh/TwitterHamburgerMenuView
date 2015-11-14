@@ -11,6 +11,8 @@ import OAuthSwift
 
 class User {
     
+    static var currentTwitterClient: TwitterContent!
+    
     static var _currentUser: OAuthSwiftClient!
     static func currentUser() -> OAuthSwiftClient? {
         if _currentUser != nil {

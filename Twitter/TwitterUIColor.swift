@@ -41,10 +41,29 @@ let TlikeImage = UIImage(named: "like.png")
 
 let screenWidth = UIScreen.mainScreen().bounds.width
 
-let TWMenuWidth = screenWidth - 50
+let TWMenuWidth = 2 * screenWidth / 3
 
 let NavHeight = 64
 let TProfileImageHeight = 48
 
 let TprofileButtonFontColor = UIColor.grayColor()
 let TprofileButtonFont = UIFont(name: "Avenir", size: 13)
+
+struct TMenu {
+    static let userInfoHeight = 80
+    static let leftOffset = 25
+    static let offset = 20
+    static let nameHeight = 27
+    static let nameFont = UIFont(name: "Avenir-Heavy", size: 25)
+    static let usernameHeight = 22
+    static let usernameFont = UIFont(name: "Avenir", size: 15)
+
+
+    static let fontColor = UIColor.blackColor()
+    
+    static let iconSize = 25
+    
+    static let functionFont = UIFont(name: "Avenir", size: 17)
+    static let functionHeight = 30
+    static let functionWidth = 100
+}

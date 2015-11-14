@@ -22,14 +22,14 @@ class SigninViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-//        if let user = User.currentUser() {
-//            print(user.credential.oauth_token)
-//            print(user.credential.oauth_token_secret)
-//            let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
-//            presentViewController(twitterHomePage, animated: true, completion: nil)
-//        }
+        //        if let user = User.currentUser() {
+        //            print(user.credential.oauth_token)
+        //            print(user.credential.oauth_token_secret)
+        //            let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
+        //            presentViewController(twitterHomePage, animated: true, completion: nil)
+        //        }
     }
-
+    
     
     func addSubviews() {
         view.backgroundColor = UIColor.whiteColor()
@@ -60,7 +60,21 @@ class SigninViewController: UIViewController {
         twitterClient.authorizeWithCallbackURL(NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
             credential, response in
             User.setCurrentUser(twitterClient.client)
-            let twitterHomePage = TwitterNavigationViewController(rootViewController: TwitterViewController())
+            
+            twitterClient.client.get(TwitterHost + "/account/verify_credentials.json", parameters: [:], success:
+                { data, response in
+                    
+                    print(data)
+                    
+                }, failure: {(error: NSError!) -> Void in
+                    TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
+                    
+            })
+            
+            
+            let twitterViewController = TwitterViewController()
+            twitterViewController.myAccountViewController = MyAccountViewController()
+            let twitterHomePage = TwitterNavigationViewController(rootViewController: twitterViewController)
             self.presentViewController(twitterHomePage, animated: true, completion: nil)
             
             }, failure: {(error:NSError!) -> Void in

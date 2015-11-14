@@ -22,10 +22,10 @@ class TwitterViewController: UIViewController {
     
     private var _panGesture: UIPanGestureRecognizer!
     
-    var menuViewController: UIViewController!  {
+    var myAccountViewController: UIViewController!  {
         didSet {
             view.layoutIfNeeded()
-            menuView.addSubview(menuViewController.view)
+            menuView.addSubview(myAccountViewController.view)
         }
     }
 
@@ -41,6 +41,8 @@ class TwitterViewController: UIViewController {
     }
     
     func addSubviews() {
+        view.backgroundColor = UIColor.lightGrayColor()
+        
         view.addSubview(menuView)
         view.addSubview(contentView)
         

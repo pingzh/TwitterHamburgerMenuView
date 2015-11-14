@@ -221,6 +221,7 @@ extension ProfiePageViewController {
         }
         return _profileImageView
     }
+    
     var nameLabel: UILabel {
         if _nameLabel == nil {
             _nameLabel = UILabel()
