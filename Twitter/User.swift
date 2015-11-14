@@ -65,24 +65,3 @@ class User {
         return value
     }
 }
-
-//var twitterClient: OAuth1Swift!
-//var oAuthSwiftClient: OAuthSwiftClient!
-//consumerKey
-//consumerSecret
-
-//accessToken
-//accessTokenSecret
-
-//
-//private(set) public var credential: OAuthSwiftCredential
-//
-//public init(consumerKey: String, consumerSecret: String) {
-//    self.credential = OAuthSwiftCredential(consumer_key: consumerKey, consumer_secret: consumerSecret)
-//}
-//
-//public init(consumerKey: String, consumerSecret: String, accessToken: String, accessTokenSecret: String) {
-//    self.credential = OAuthSwiftCredential(oauth_token: accessToken, oauth_token_secret: accessTokenSecret)
-//    self.credential.consumer_key = consumerKey
-//    self.credential.consumer_secret = consumerSecret
-//}

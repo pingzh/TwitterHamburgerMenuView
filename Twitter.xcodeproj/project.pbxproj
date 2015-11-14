@@ -15,7 +15,7 @@
 		EC1687111BEFA08F001779D2 /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = EC16870E1BEFA08F001779D2 /* like.png */; };
 		EC1687121BEFA08F001779D2 /* reply.png in Resources */ = {isa = PBXBuildFile; fileRef = EC16870F1BEFA08F001779D2 /* reply.png */; };
 		EC1687131BEFA08F001779D2 /* retwitter.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1687101BEFA08F001779D2 /* retwitter.png */; };
-		EC1687151BEFA5CA001779D2 /* TwitterContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1687141BEFA5CA001779D2 /* TwitterContent.swift */; };
+		EC1687151BEFA5CA001779D2 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1687141BEFA5CA001779D2 /* TwitterClient.swift */; };
 		EC1687171BEFB437001779D2 /* NewTwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1687161BEFB437001779D2 /* NewTwitterViewController.swift */; };
 		EC1687191BEFCD2F001779D2 /* TwitterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1687181BEFCD2F001779D2 /* TwitterDetailViewController.swift */; };
 		EC46BF201BF78E500004C119 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46BF1F1BF78E500004C119 /* MenuViewController.swift */; };
@@ -62,7 +62,7 @@
 		EC16870E1BEFA08F001779D2 /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
 		EC16870F1BEFA08F001779D2 /* reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reply.png; sourceTree = "<group>"; };
 		EC1687101BEFA08F001779D2 /* retwitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retwitter.png; sourceTree = "<group>"; };
-		EC1687141BEFA5CA001779D2 /* TwitterContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterContent.swift; sourceTree = "<group>"; };
+		EC1687141BEFA5CA001779D2 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		EC1687161BEFB437001779D2 /* NewTwitterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTwitterViewController.swift; sourceTree = "<group>"; };
 		EC1687181BEFCD2F001779D2 /* TwitterDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterDetailViewController.swift; sourceTree = "<group>"; };
 		EC46BF1F1BF78E500004C119 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -179,11 +179,11 @@
 				EC16870C1BEF91F4001779D2 /* Storyboard.storyboard */,
 				EC16870A1BEF0DFC001779D2 /* twitterProfile.png */,
 				EC83025C1BEEAF2A00B42C69 /* signInWithTwitter.png */,
+				ECEB65FA1BE97AE8002DE9B0 /* AppDelegate.swift */,
 				EC8302591BEEA74300B42C69 /* Cells */,
 				ECA0507D1BEE9B19005F087A /* Constants */,
 				ECEB66291BE97B11002DE9B0 /* Models */,
 				ECEB66281BE97B04002DE9B0 /* Views */,
-				ECEB65FA1BE97AE8002DE9B0 /* AppDelegate.swift */,
 				ECEB66011BE97AE8002DE9B0 /* Assets.xcassets */,
 				ECEB66031BE97AE8002DE9B0 /* LaunchScreen.storyboard */,
 				ECEB66061BE97AE8002DE9B0 /* Info.plist */,
@@ -227,7 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				EC1687061BEEF123001779D2 /* User.swift */,
-				EC1687141BEFA5CA001779D2 /* TwitterContent.swift */,
+				EC1687141BEFA5CA001779D2 /* TwitterClient.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -420,7 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC1687151BEFA5CA001779D2 /* TwitterContent.swift in Sources */,
+				EC1687151BEFA5CA001779D2 /* TwitterClient.swift in Sources */,
 				EC9973B81BE98511003F1E6F /* TwitterNavigationViewController.swift in Sources */,
 				EC1687091BEEFA83001779D2 /* TwitterHelper.swift in Sources */,
 				EC46BF221BF79D5C0004C119 /* ProfiePageViewController.swift in Sources */,

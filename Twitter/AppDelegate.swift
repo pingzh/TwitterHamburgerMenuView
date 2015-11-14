@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.backgroundColor = UIColor.whiteColor()
         
-        let twitterViewController = ProfiePageViewController()
+        let twitterViewController = SigninViewController()
         window!.rootViewController = TwitterNavigationViewController(rootViewController: twitterViewController)
         
         //let menuViewController = MenuViewController()

@@ -14,26 +14,23 @@ class ProfiePageViewController: UIViewController {
     private var _profileImageView: UIImageView!
     private var _nameLabel: UILabel!
     private var _usernameLabel: UILabel!
-    
-    private var _twitterNumer: UILabel!
-    private var _twitterLabel: UILabel!
-    
-    private var _followingNumer: UILabel!
-    private var _followingLabel: UILabel!
-    
-    private var _followerNumber: UILabel!
-    private var _followerLabel: UILabel!
-    
+    private var _twitterNumer: UIButton!
+    private var _followingNumer: UIButton!
+    private var _followerNumber: UIButton!
     private var _tableView: UITableView!
+    
+    var selectedUser: TwitterContent!
+    private var twitters: [TwitterContent] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
         addLayout()
-        // Do any additional setup after loading the view.
+        initData()
     }
     
     func addSubviews() {
+        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(profileBannerImageView)
         
         profileBannerImageView.addSubview(profileImageView)
@@ -41,13 +38,8 @@ class ProfiePageViewController: UIViewController {
         profileBannerImageView.addSubview(usernameLabel)
         
         view.addSubview(twitterNumer)
-        view.addSubview(twitterLabel)
-        
         view.addSubview(followingNumer)
-        view.addSubview(followingLabel)
-        
         view.addSubview(followerNumber)
-        view.addSubview(followerLabel)
         
         view.addSubview(tableView)
     }
@@ -78,48 +70,143 @@ class ProfiePageViewController: UIViewController {
         usernameLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(nameLabel.snp_bottom).offset(8)
             make.centerX.equalTo(profileImageView)
-
         }
         
+        //twitterNumer.backgroundColor = UIColor.blueColor()
+        twitterNumer.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(profileBannerImageView.snp_bottom).offset(0)
+            make.left.equalTo(profileBannerImageView).offset(0)
+            make.width.equalTo(screenWidth / 3)
+            make.height.equalTo(40)
+        }
         
+        //followerNumber.backgroundColor = UIColor.blueColor()
+        followerNumber.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(profileBannerImageView.snp_bottom).offset(0)
+            make.right.equalTo(profileBannerImageView.snp_right).offset(0)
+            make.width.equalTo(screenWidth / 3)
+            make.height.equalTo(40)
+        }
+        
+        //followingNumer.backgroundColor = UIColor.blueColor()
+        followingNumer.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(profileBannerImageView.snp_bottom).offset(0)
+            make.left.equalTo(twitterNumer.snp_right).offset(0)
+            make.right.equalTo(followerNumber.snp_left).offset(-0)
+            make.height.equalTo(40)
+        }
+        
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(followingNumer.snp_bottom).offset(0)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+    }
+    
+    func initData(){
+        getHomeTimeline()
+        
+        let profileImageUrl = NSURL(string: selectedUser.profileImageUrl)
+        profileImageView.af_setImageWithURL(profileImageUrl!)
+        
+        nameLabel.text = selectedUser.name
+        usernameLabel.text = selectedUser.username
+        twitterNumer.setTitle(selectedUser.twitters.description + "\nTWITTERS", forState: .Normal)
+        followingNumer.setTitle(selectedUser.followings.description + "\nFOLLOWING", forState: .Normal)
+        followerNumber.setTitle(selectedUser.followers.description + "\nFOLLOWERS", forState: .Normal)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    func getHomeTimeline() {
+        if let currentUser = User.currentUser() {
+            let parameters =  ["screen_name": selectedUser.username]
+            currentUser.get(TwitterHost + "/statuses/user_timeline.json", parameters: parameters,
+                success: {
+                    data, response in
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                        var loadedTwitters: [TwitterContent] = []
+                        let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSArray
+                        for twitter in json! {
+                            let user = twitter["user"] as! NSDictionary
+                            
+                            let profileImageUrl = user["profile_image_url"] as! String
+                            let profileBannerImageUrl = ""//user["profile_banner_url"] as? String
 
-    /*
-    // MARK: - Navigation
+                            let twitterText = twitter["text"] as! String
+                            
+                            let twitteredData = twitter["created_at"] as! String
+                            let dateFormatter = NSDateFormatter()
+                            dateFormatter.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
+                            let date = dateFormatter.dateFromString(twitteredData)
+                            
+                            let loadedTwitter = TwitterContent(
+                                name: user["name"] as! String,
+                                username: ("@" + (user["screen_name"] as! String)),
+                                twitterTime: "4h",
+                                twitterContent: twitterText,
+                                profileImageUrl: profileImageUrl,
+                                profileBannerImageUrl: profileBannerImageUrl,
+                                twitters: user["listed_count"] as! Int,
+                                followings: user["following"] as! Int,
+                                followers: user["followers_count"] as! Int
+                                
+                            )
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+                            loadedTwitters.append(loadedTwitter)
+                        }
+                        
+                        let lastCount = self.twitters.count
+                        self.twitters.appendContentsOf(loadedTwitters)
+                        let indexPaths = (lastCount..<self.twitters.count).map { NSIndexPath(forItem: $0, inSection: 0) }
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Bottom)
+                        }
+                    }
+                }, failure: {(error: NSError!) -> Void in
+                    TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
+                    
+            })
+        }
     }
-    */
 }
 
 extension ProfiePageViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return twitters.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let reuseId = "TwitterTableViewCell"
+        let cell: TwitterTableViewCell
+        if let reuseCell = tableView.dequeueReusableCellWithIdentifier(reuseId) as? TwitterTableViewCell {
+            cell = reuseCell
+        }
+        else {
+            cell = TwitterTableViewCell(style: .Subtitle, reuseIdentifier: reuseId)
+        }
+        let twitter = twitters[indexPath.row]
+        cell.setTwitter(twitter)
+        
+        cell.selectionStyle = .None
+        
+        return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedTwitter = twitters[indexPath.row]
+        let twitterDetail = TwitterDetailViewController()
+        twitterDetail.selectedTwitter = selectedTwitter
+        
+        self.navigationController?.pushViewController(twitterDetail, animated: true)
+    }
 }
 
 extension ProfiePageViewController {
-//    var profileBannerView: UIView {
-//        if _profileBannerView == nil {
-//            _profileBannerView = UIView()
-//            _profileBannerView.backgroundColor = UIColor(patternImage: UIImage(named: "blur_bg.jpg")!)
-//        }
-//        return _profileBannerView
-//    }
     var profileBannerImageView: UIImageView {
         if _profileBannerImageView == nil {
             _profileBannerImageView = UIImageView()
@@ -152,47 +239,43 @@ extension ProfiePageViewController {
         return _usernameLabel
     }
     
-    var twitterNumer: UILabel {
+    var twitterNumer: UIButton {
         if _twitterNumer == nil {
-            _twitterNumer = UILabel()
+            _twitterNumer = UIButton()
+            _twitterNumer.titleLabel?.lineBreakMode = .ByWordWrapping
+            _twitterNumer.titleLabel?.textAlignment = .Left
+            _twitterNumer.titleLabel?.font = TprofileButtonFont
+            _twitterNumer.setTitleColor(TprofileButtonFontColor, forState: .Normal)
         }
         return _twitterNumer
     }
-    var twitterLabel: UILabel {
-        if _twitterLabel == nil {
-            _twitterLabel = UILabel()
+    var followingNumer: UIButton {
+        if _followingNumer == nil {
+            _followingNumer = UIButton()
+            _followingNumer.titleLabel?.lineBreakMode = .ByWordWrapping
+            _followingNumer.titleLabel?.textAlignment = .Left
+            _followingNumer.titleLabel?.font = TprofileButtonFont
+            _followingNumer.setTitleColor(TprofileButtonFontColor, forState: .Normal)
         }
-        return _twitterLabel
+        return _followingNumer
     }
-    var followingNumer: UILabel {
+
+    var followerNumber: UIButton {
         if _followerNumber == nil {
-            _followerNumber = UILabel()
+            _followerNumber = UIButton()
+            _followerNumber.titleLabel?.lineBreakMode = .ByWordWrapping
+            _followerNumber.titleLabel?.textAlignment = .Left
+            _followerNumber.titleLabel?.font = TprofileButtonFont
+            _followerNumber.setTitleColor(TprofileButtonFontColor, forState: .Normal)
         }
         return _followerNumber
     }
-    var followingLabel: UILabel {
-        if _followingLabel == nil {
-            _followingLabel = UILabel()
-        }
-        return _followingLabel
-    }
-    var followerNumber: UILabel {
-        if _followerNumber == nil {
-            _followerNumber = UILabel()
-        }
-        return _followerNumber
-    }
-    var followerLabel: UILabel {
-        if _followerLabel == nil {
-            _followerLabel = UILabel()
-        }
-        return _followerLabel
-    }
+
     var tableView: UITableView {
         if _tableView == nil {
             _tableView = UITableView()
-//            _tableView.delegate = self
-//            _tableView.dataSource = self
+            _tableView.delegate = self
+            _tableView.dataSource = self
             _tableView.estimatedRowHeight = 200
             _tableView.rowHeight = UITableViewAutomaticDimension
         }

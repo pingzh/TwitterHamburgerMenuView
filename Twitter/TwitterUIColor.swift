@@ -39,8 +39,12 @@ let TreplyImage = UIImage(named: "reply.png")
 let TretwitterImage = UIImage(named: "retwitter.png")
 let TlikeImage = UIImage(named: "like.png")
 
+let screenWidth = UIScreen.mainScreen().bounds.width
 
-let TWMenuWidth = UIScreen.mainScreen().bounds.width - 50
+let TWMenuWidth = screenWidth - 50
 
 let NavHeight = 64
 let TProfileImageHeight = 48
+
+let TprofileButtonFontColor = UIColor.grayColor()
+let TprofileButtonFont = UIFont(name: "Avenir", size: 13)

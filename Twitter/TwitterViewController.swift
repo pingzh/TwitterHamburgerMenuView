@@ -126,8 +126,12 @@ class TwitterViewController: UIViewController {
             })
         }
     }
-    
     func initData() {
+        getHomeTimeline()
+    }
+    
+    
+    func getHomeTimeline() {
         if let currentUser = User.currentUser() {
             let parameters =  Dictionary<String, AnyObject>()
             currentUser.get(TwitterHost + "/statuses/home_timeline.json", parameters: parameters,
@@ -140,6 +144,7 @@ class TwitterViewController: UIViewController {
                             let user = twitter["user"] as! NSDictionary
                             
                             let profileImageUrl = user["profile_image_url"] as! String
+                            let profileBannerImageUrl = "" //user["profile_banner_url"] as? String
                             let twitterText = twitter["text"] as! String
                             
                             let twitteredData = twitter["created_at"] as! String
@@ -152,7 +157,12 @@ class TwitterViewController: UIViewController {
                                 username: ("@" + (user["screen_name"] as! String)),
                                 twitterTime: "4h",
                                 twitterContent: twitterText,
-                                profileImageUrl: profileImageUrl
+                                profileImageUrl: profileImageUrl,
+                                profileBannerImageUrl: profileBannerImageUrl,
+                                twitters: user["listed_count"] as! Int,
+                                followings: user["following"] as! Int,
+                                followers: user["followers_count"] as! Int
+                                
                             )
                             loadedTwitters.append(loadedTwitter)
                         }
@@ -166,10 +176,11 @@ class TwitterViewController: UIViewController {
                     }
                 }, failure: {(error: NSError!) -> Void in
                     TwitterHelper.sendAlert("Failure", message: error.localizedDescription)
-
+                    
             })
         }
     }
+    
     
     func refreshView() {
         refreshControl.beginRefreshing()
@@ -204,7 +215,18 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.selectionStyle = .None
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+        cell.profileImageView.tag = indexPath.row
+        cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
+        
         return cell
+    }
+    
+    func imageTapped(sender: AnyObject) {
+        let profilePageController = ProfiePageViewController()
+        let profileImage = sender.view as! UIImageView
+        profilePageController.selectedUser = twitters[profileImage.tag]
+        self.navigationController?.pushViewController(profilePageController, animated: true)
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

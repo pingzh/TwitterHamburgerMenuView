@@ -19,6 +19,8 @@ class TwitterTableViewCell: UITableViewCell {
     private var _retwitterButton: UIButton!
     private var _likeButton: UIButton!
     
+    private var twitter: TwitterContent!
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
@@ -117,6 +119,7 @@ class TwitterTableViewCell: UITableViewCell {
     
     
     func setTwitter(twitter: TwitterContent) {
+        self.twitter = twitter
         let imageNSUrl = NSURL(string: twitter.profileImageUrl)!
         profileImageView.af_setImageWithURL(imageNSUrl)
         nameLabel.text = twitter.name
@@ -130,13 +133,13 @@ class TwitterTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
     }
-
 }
 
 extension TwitterTableViewCell {
     var profileImageView: UIImageView {
         if _profileImageView == nil {
             _profileImageView = UIImageView()
+            _profileImageView.userInteractionEnabled = true
         }
         return _profileImageView
     }
