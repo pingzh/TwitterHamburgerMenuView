@@ -38,3 +38,9 @@ let TTwitterContentFont = UIFont(name: "Avenir", size: 13)
 let TreplyImage = UIImage(named: "reply.png")
 let TretwitterImage = UIImage(named: "retwitter.png")
 let TlikeImage = UIImage(named: "like.png")
+
+
+let TWMenuWidth = UIScreen.mainScreen().bounds.width - 50
+
+let NavHeight = 64
+let TProfileImageHeight = 48

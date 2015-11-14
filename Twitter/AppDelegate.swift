@@ -19,7 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.backgroundColor = UIColor.whiteColor()
-        window!.rootViewController = TwitterNavigationViewController(rootViewController: SigninViewController())
+        
+        let twitterViewController = ProfiePageViewController()
+        window!.rootViewController = TwitterNavigationViewController(rootViewController: twitterViewController)
+        
+        //let menuViewController = MenuViewController()
+        
+        //twitterViewController.menuViewController = menuViewController
+        
         window!.makeKeyAndVisible()
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         return true

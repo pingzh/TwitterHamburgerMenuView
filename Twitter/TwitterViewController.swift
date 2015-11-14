@@ -17,6 +17,19 @@ class TwitterViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var twitters: [TwitterContent] = []
     
+    private var _menuView: UIView!
+    private var _contentView: UIView!
+    
+    private var _panGesture: UIPanGestureRecognizer!
+    
+    var menuViewController: UIViewController!  {
+        didSet {
+            view.layoutIfNeeded()
+            menuView.addSubview(menuViewController.view)
+        }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -28,7 +41,10 @@ class TwitterViewController: UIViewController {
     }
     
     func addSubviews() {
-        view.addSubview(tableView)
+        view.addSubview(menuView)
+        view.addSubview(contentView)
+        
+        contentView.addSubview(tableView)
         navigationItem.title = "Home"
         navigationItem.leftBarButtonItem = signOutButton
         navigationItem.rightBarButtonItem = newTwitterButton
@@ -39,11 +55,28 @@ class TwitterViewController: UIViewController {
     }
     
     func addLayouts() {
-        tableView.snp_makeConstraints { (make) -> Void in
+        
+        menuView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(view)
             make.left.equalTo(view)
             make.right.equalTo(view)
-            make.bottom.equalTo(snp_bottomLayoutGuideTop)
+            make.bottom.equalTo(view)
+        }
+        
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(view)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+
+        contentView.addGestureRecognizer(panGesture)
+        
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(contentView).offset(NavHeight)
+            make.left.equalTo(contentView)
+            make.right.equalTo(contentView)
+            make.bottom.equalTo(contentView)
         }
     }
 
@@ -64,6 +97,34 @@ class TwitterViewController: UIViewController {
         
         let newTwitterPageNav = TwitterNavigationViewController(rootViewController: newTwitterPage)
         presentViewController(newTwitterPageNav, animated: true, completion: nil)
+    }
+    
+    func onPanGesture(sender: UIPanGestureRecognizer) {
+        let translation = sender.translationInView(view)
+        let velocity = sender.velocityInView(view)
+        
+        if sender.state == UIGestureRecognizerState.Began {
+        
+        }
+        else if sender.state == UIGestureRecognizerState.Changed {
+//            contentView.snp_updateConstraints(closure: { (make) -> Void in
+//                make.left.equalTo(view).offset(translation.x)
+//            })
+        }
+        else if sender.state == UIGestureRecognizerState.Ended {
+            UIView.animateWithDuration(0.3, animations: {
+                if velocity.x > 0 {
+                    self.contentView.snp_updateConstraints(closure: { (make) -> Void in
+                        make.left.equalTo(self.view).offset(TWMenuWidth)
+                    })
+                }
+                else {
+                    self.contentView.snp_updateConstraints(closure: { (make) -> Void in
+                        make.left.equalTo(self.view).offset(0)
+                    })
+                }
+            })
+        }
     }
     
     func initData() {
@@ -141,6 +202,8 @@ extension TwitterViewController: UITableViewDataSource, UITableViewDelegate {
         let twitter = twitters[indexPath.row]
         cell.setTwitter(twitter)
         
+        cell.selectionStyle = .None
+        
         return cell
     }
     
@@ -181,4 +244,29 @@ extension TwitterViewController {
         }
         return _signOutButton
     }
+    
+    var menuView: UIView {
+        if _menuView == nil {
+            _menuView = UIView()
+            _menuView.backgroundColor = UIColor.blueColor()
+            
+        }
+        return _menuView
+    }
+    
+    var contentView: UIView {
+        if _contentView == nil {
+            _contentView = UIView()
+            _contentView.backgroundColor = UIColor.whiteColor()
+        }
+        return _contentView
+    }
+    
+    var panGesture: UIPanGestureRecognizer {
+        if _panGesture == nil {
+            _panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
+        }
+        return _panGesture
+    }
+    
 }
