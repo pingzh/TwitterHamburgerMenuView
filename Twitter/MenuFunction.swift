@@ -14,9 +14,12 @@ class MenuFunction {
     var icon: String!
     var status: String!
     
-    init(name: String, icon: String, status: String) {
+    var destinationViewController: UIViewController!
+    
+    init(name: String, icon: String, status: String, destinationViewController: UIViewController) {
         self.name = name
         self.icon = icon
         self.status = status
+        self.destinationViewController = destinationViewController
     }
 }

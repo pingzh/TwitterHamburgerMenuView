@@ -102,7 +102,6 @@ class MyAccountViewController: UIViewController {
     }
     
     func setUserInfo() {
-        
         if let currentUser = User.currentTwitterClient {
             nameLabel.text = currentUser.name
             usernameLabel.text = currentUser.username
@@ -119,11 +118,11 @@ class MyAccountViewController: UIViewController {
 extension MyAccountViewController {
     func loadMyAccountItems() {
         
-        let views = MenuFunction(name: "Home", icon: "home", status: "")
-        let messages = MenuFunction(name: "Messages", icon: "message", status: "5")
-        let notifications = MenuFunction(name: "Notifications", icon: "notifications", status: "2")
-        let moments = MenuFunction(name: "Moments", icon: "moments", status: "2")
-        let logout = MenuFunction(name: "Log Out", icon: "logout", status: "")
+        let views = MenuFunction(name: "Home", icon: "home", status: "", destinationViewController: ProfiePageViewController())
+        let messages = MenuFunction(name: "Messages", icon: "message", status: "5", destinationViewController: ProfiePageViewController())
+        let notifications = MenuFunction(name: "Notifications", icon: "notifications", status: "2", destinationViewController: ProfiePageViewController())
+        let moments = MenuFunction(name: "Moments", icon: "moments", status: "2", destinationViewController: ProfiePageViewController())
+        let logout = MenuFunction(name: "Log Out", icon: "logout", status: "", destinationViewController: ProfiePageViewController())
         
         functions = [views, messages, notifications, moments, logout]
     }
@@ -156,11 +155,13 @@ extension MyAccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //        let selectedTwitter = twitters[indexPath.row]
-        //        let twitterDetail = TwitterDetailViewController()
-        //        twitterDetail.selectedTwitter = selectedTwitter
-        //
-        //        self.navigationController?.pushViewController(twitterDetail, animated: true)
+        let selectedFunction = functions[indexPath.row]
+        let destinationViewController = selectedFunction.destinationViewController as! ProfiePageViewController
+
+        destinationViewController.selectedUser = User.currentTwitterClient
+        
+        twitterViewController.contentViewController = twitterViewController
+        twitterViewController.navigationController?.pushViewController(destinationViewController, animated: true)
         NSLog("didSelect")
     }
 }
