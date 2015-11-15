@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 
 class TwitterViewController: UIViewController {
-
+    
     private var _tableView: UITableView!
     private var _signOutButton: UIBarButtonItem!
     private var _newTwitterButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     private var twitters: [TwitterContent] = []
     
-    private var _menuView: UIView!
+    private var _myAccountView: UIView!
     private var _contentView: UIView!
     
     private var _panGesture: UIPanGestureRecognizer!
@@ -25,10 +25,21 @@ class TwitterViewController: UIViewController {
     var myAccountViewController: UIViewController!  {
         didSet {
             view.layoutIfNeeded()
-            menuView.addSubview(myAccountViewController.view)
+            myAccountView.addSubview(myAccountViewController.view)
         }
     }
-
+    
+    var contentViewController: UIViewController! {
+        didSet {
+            view.layoutIfNeeded()
+            //contentView.addSubview(contentViewController.view)
+            UIView.animateWithDuration(0.3, animations: {
+                self.contentView.snp_updateConstraints(closure: { (make) -> Void in
+                    make.left.equalTo(self.view).offset(0)
+                })
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +54,7 @@ class TwitterViewController: UIViewController {
     func addSubviews() {
         view.backgroundColor = UIColor.lightGrayColor()
         
-        view.addSubview(menuView)
+        view.addSubview(myAccountView)
         view.addSubview(contentView)
         
         contentView.addSubview(tableView)
@@ -58,7 +69,7 @@ class TwitterViewController: UIViewController {
     
     func addLayouts() {
         
-        menuView.snp_makeConstraints { (make) -> Void in
+        myAccountView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(view)
             make.left.equalTo(view)
             make.right.equalTo(view)
@@ -71,7 +82,7 @@ class TwitterViewController: UIViewController {
             make.right.equalTo(view)
             make.bottom.equalTo(view)
         }
-
+        
         contentView.addGestureRecognizer(panGesture)
         
         tableView.snp_makeConstraints { (make) -> Void in
@@ -81,7 +92,7 @@ class TwitterViewController: UIViewController {
             make.bottom.equalTo(contentView)
         }
     }
-
+    
     func didPressSignOutButton() {
         User.clearCurrentUser()
         dismissViewControllerAnimated(true, completion: nil)
@@ -106,12 +117,12 @@ class TwitterViewController: UIViewController {
         let velocity = sender.velocityInView(view)
         
         if sender.state == UIGestureRecognizerState.Began {
-        
+            
         }
         else if sender.state == UIGestureRecognizerState.Changed {
-//            contentView.snp_updateConstraints(closure: { (make) -> Void in
-//                make.left.equalTo(view).offset(translation.x)
-//            })
+            //            contentView.snp_updateConstraints(closure: { (make) -> Void in
+            //                make.left.equalTo(view).offset(translation.x)
+            //            })
         }
         else if sender.state == UIGestureRecognizerState.Ended {
             UIView.animateWithDuration(0.3, animations: {
@@ -269,13 +280,13 @@ extension TwitterViewController {
         return _signOutButton
     }
     
-    var menuView: UIView {
-        if _menuView == nil {
-            _menuView = UIView()
-            _menuView.backgroundColor = UIColor.blueColor()
+    var myAccountView: UIView {
+        if _myAccountView == nil {
+            _myAccountView = UIView()
+            _myAccountView.backgroundColor = UIColor.blueColor()
             
         }
-        return _menuView
+        return _myAccountView
     }
     
     var contentView: UIView {

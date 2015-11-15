@@ -81,12 +81,14 @@ class SigninViewController: UIViewController {
                         )
                         User.currentTwitterClient = authedTwitterClient
                         
-                        
+                        // Important
                         let twitterViewController = TwitterViewController()
-                        twitterViewController.myAccountViewController = MyAccountViewController()
+                        let myAccountViewController = MyAccountViewController()
+                        myAccountViewController.twitterViewController = twitterViewController
+                        twitterViewController.myAccountViewController = myAccountViewController
+                        
                         let twitterHomePage = TwitterNavigationViewController(rootViewController: twitterViewController)
                         self.presentViewController(twitterHomePage, animated: true, completion: nil)
-                        
                     }
                 }, failure: {(error: NSError!) -> Void in
                     TwitterHelper.sendAlert("Failure", message: error.localizedDescription)

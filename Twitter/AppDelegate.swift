@@ -21,13 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.backgroundColor = UIColor.whiteColor()
         
         let twitterViewController = SigninViewController()
-        //twitterViewController.myAccountViewController = MyAccountViewController()
+        //let myAccountViewController = MyAccountViewController()
+        //myAccountViewController.twitterViewController = twitterViewController
+        //twitterViewController.myAccountViewController = myAccountViewController
         
         window!.rootViewController = TwitterNavigationViewController(rootViewController: twitterViewController)
         
-        //let menuViewController = MenuViewController()
         
-        //twitterViewController.menuViewController = menuViewController
         
         window!.makeKeyAndVisible()
         UIApplication.sharedApplication().statusBarStyle = .LightContent

@@ -90,21 +90,23 @@ public class OAuthSwiftHTTPRequest: NSObject, NSURLSessionDelegate {
                 #if os(iOS)
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 #endif
-                
-                self.response = response as? NSHTTPURLResponse
-                self.responseData.length = 0
-                self.responseData.appendData(data!)
-                
-                if self.response.statusCode >= 400 {
-                    let responseString = NSString(data: self.responseData, encoding: self.dataEncoding)
-                    let localizedDescription = OAuthSwiftHTTPRequest.descriptionForHTTPStatus(self.response.statusCode, responseString: responseString! as String)
-                    let userInfo : [NSObject : AnyObject] = [NSLocalizedDescriptionKey: localizedDescription, "Response-Headers": self.response.allHeaderFields]
-                    let error = NSError(domain: NSURLErrorDomain, code: self.response.statusCode, userInfo: userInfo)
-                    self.failureHandler?(error: error)
-                    return
+                if data != nil {
+                    self.response = response as? NSHTTPURLResponse
+                    self.responseData.length = 0
+                    
+                    self.responseData.appendData(data!)
+                    if self.response.statusCode >= 400 {
+                        let responseString = NSString(data: self.responseData, encoding: self.dataEncoding)
+                        let localizedDescription = OAuthSwiftHTTPRequest.descriptionForHTTPStatus(self.response.statusCode, responseString: responseString! as String)
+                        let userInfo : [NSObject : AnyObject] = [NSLocalizedDescriptionKey: localizedDescription, "Response-Headers": self.response.allHeaderFields]
+                        let error = NSError(domain: NSURLErrorDomain, code: self.response.statusCode, userInfo: userInfo)
+                        self.failureHandler?(error: error)
+                        return
+                    }
+                    
+                    
+                    self.successHandler?(data: self.responseData, response: self.response)
                 }
-                
-                self.successHandler?(data: self.responseData, response: self.response)
             }
             task.resume()
 

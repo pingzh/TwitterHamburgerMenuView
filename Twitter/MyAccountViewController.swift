@@ -23,6 +23,8 @@ class MyAccountViewController: UIViewController {
     
     var functions: [MenuFunction] = []
     
+    var twitterViewController: TwitterViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -127,7 +129,8 @@ extension MyAccountViewController {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        dismissViewControllerAnimated(true, completion: nil)
+        NSLog("touch")
+        twitterViewController.contentViewController = twitterViewController//TwitterViewController() //
     }
 }
 
