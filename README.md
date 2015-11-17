@@ -27,7 +27,7 @@ Note: Be sure to run `pod install` and then open `Twitter.xcworkspace`
     
 ## Gif walkthrough:
 
-![alt tag]()
+![alt tag](https://github.com/pingzh/TwitterHamburgerMenuView/blob/master/MobileTrainingAssignmentFour__Ping_Zhang.gif)
 
 # Credits
 - [GIF created with LiceCap] (http://www.cockos.com/licecap/)
